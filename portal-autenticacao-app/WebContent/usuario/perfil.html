@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Perfis de Usuário</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../js/all.js"></script>
+<link rel="stylesheet" type="text/css" href="https://jqueryui.com/resources/demos/style.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../css/estilos.css">
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+
+<h1>Perfis de Usuário</h1>
+
+<div id="formCadastro">
+	<input type="hidden" id="classe" value="Modulo" />
+	<input type="hidden" id="metodo" value="incluir" />
+	<input type="hidden" id="id"/>
+	<input type="hidden" id="idSistema"/>
+	<div class="campo">
+		<label>Nome: </label><input type="text" id="nome" name="nome" title="nome" placeholder="nome" />
+	</div>
+	<div class="campo">
+		<label>Acesso: </label><input type="text" id="acesso" name="acesso" title="acesso" placeholder="acesso" />
+	</div>
+	<input type="button" id="btnCadastrar" value="Salvar" title="salvar" />
+</div>
+
+<div id="divTabela">
+	<h1>Lista de Perfis</h1>
+	<div id="formPesquisa">
+		<label></label>
+	</div>
+	<table id="tbl" class="dados">
+		<thead>
+			<tr>
+				<td>Id</td>
+				<td>Nome</td>
+				<td>Acesso</td>
+				<td>Módulo</td>
+			</tr>
+		</thead>		
+	</table>
+</div>
+
+</body>
+<script type="text/javascript" src="../js/sistema/funcionalidade.js"></script>
+<script type="text/javascript">
+	funcionalidade.init();
+	$(function() {
+	    $( "#selectable" ).selectable(/* {
+	      stop: function() {
+	        var result = $( "#select-result" ).empty();
+	        $( ".ui-selected", this ).each(function() {
+	          var index = $( "#selectable li" ).index( this );
+	          result.append( " #" + ( index + 1 ) );
+	        });
+	      }
+	    } */);
+	  });
+</script>
+</html>

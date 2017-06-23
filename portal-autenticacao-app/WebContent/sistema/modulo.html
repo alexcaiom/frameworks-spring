@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Módulos</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../js/all.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/estilos.css">
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/sistema/modulo.js"></script>
+</head>
+<body onload="init(modulo.init())" >
+
+<h1>Módulos</h1>
+
+<div id="formCadastro">
+	<input type="hidden" id="classe" value="Modulo" />
+	<input type="hidden" id="metodo" value="incluir" />
+	<input type="hidden" id="id"/>
+	<input type="hidden" id="idSistema"/>
+	<div class="campo">
+		<label>Nome: </label><input type="text" id="nome" name="nome" title="nome" />
+	</div>
+	<input type="button" id="btnCadastrar" value="Salvar" title="salvar" />
+</div>
+
+<div id="divTabela">
+	<h1>Lista de Módulos</h1>
+	<div id="lblSemResultados" class="oculto">
+		Sem resultados...
+	</div>
+	<div id="msgCarregando">
+		<img id="imgCarregando" alt="carregando" src="../img/carregando.gif" width="25px" > Carregando...
+	</div>
+	<div id="formPesquisa">
+		<label>Nome: </label>
+		 <input type="text" id="nomePesquisa" placeholder="nome"> 
+		 <input type="button" id="btnPesquisar" value="Pesquisar">
+	</div>
+	<table id="tbl" class="dados">
+		<thead>
+			<tr>
+				<td>Id</td>
+				<td>Nome</td>
+				<td>Sistema</td>
+			</tr>
+		</thead>		
+	</table>
+</div>
+
+</body>
+</html>

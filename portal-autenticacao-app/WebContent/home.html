@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<fieldset id="acoesUsuarioLogado" class="alinhamentoEsquerda">
+		<legend>Área de Usuário</legend>
+		Cadastros Disponiveis
+		<div class="accordion">
+			<h3>Usuários</h3>
+			<div>
+				<a href="usuario/usuario.html">Informações pessoais</a><br/>
+				<a href="usuario/perfil.html">Perfil</a><br/>
+				<a href="usuario/permissoes.html">Permissoes</a>
+				<div class="accordion">
+					<h3>Acadêmico</h3>
+					<div>
+						<a href="usuario/academico/areaDeEstudo.html">Área de Estudo</a><br/>
+						<a href="usuario/academico/atividadeEscolar.html">Atividade Escolar</a><br/>
+						<a href="usuario/academico/escolaridade.html">Escolaridade</a><br/>
+						<a href="usuario/academico/instituicaoDeEnsino.html">Instituição de Ensino</a>
+					</div>
+				</div>
+				<div class="accordion">
+					<h3>Profissional</h3>
+					<div>
+						<a href="usuario/academico/cargo.html">Cargo</a><br/>
+						<a href="usuario/academico/empresa.html">Empresa</a><br/>
+						<a href="usuario/academico/experienciaProfissional.html">Experiência Profissional</a>
+					</div>
+				</div>
+			</div>
+			<h3>Sistema</h3>
+			<div>
+				<a href="sistema/funcionalidade.html">Funcionalidades</a><br/>
+				<a href="sistema/modulo.html">Módulos</a><br/>
+				<a href="sistema/sistema.html">Sistema</a><br/>
+			</div>
+		</div>
+	</fieldset>
+</body>
+<script>
+$(".accordion").accordion(
+		{
+			collapsible: true
+			}
+		);
+</script>
+</html>

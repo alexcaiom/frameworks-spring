@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<meta charset="UTF-8">
+<div id="menuConteudo" class="alinhamentoEsquerda">
+	<ul id="menu"  class="oculto">
+		<li><a href="home.html" target="conteudo">Início</a></li>
+		<li>Usuário
+			<ul>
+				<li><a href="usuario/usuario.html" target="conteudo">Informações Pessoais</a></li>
+				<li><a href="usuario/perfil.html" target="conteudo">Perfil</a></li>
+				<li><a href="usuario/permissoes.html" target="conteudo">Permissoes</a></li>
+				<li>Acadêmico
+					<ul>
+						<li><a href="usuario/academico/areaDeEstudo.html" target="conteudo">Área de Estudo</a></li>
+						<li><a href="usuario/academico/atividadeEscolar.html" target="conteudo">Atividade Escolar</a></li>
+						<li><a href="usuario/academico/escolaridade.html" target="conteudo">Escolaridade</a></li>
+						<li><a href="usuario/academico/instituicaoDeEnsino.html" target="conteudo">Instituicao de Ensino</a></li>
+					</ul>
+				</li>
+				<li>Profissional
+					<ul>
+						<li><a href="usuario/profissional/cargo.html" target="conteudo">Cargo</a></li>
+						<li><a href="usuario/profissional/empresa.html" target="conteudo">Empresa</a></li>
+						<li><a href="usuario/profissional/experienciaProfissional.html" target="conteudo">Experiencia Profissional</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li>
+			Sistema
+			<ul>
+				<li><a href="sistema/sistema.html" target="conteudo">Sistema</a></li>
+				<li><a href="sistema/modulo.html" target="conteudo">Módulo</a></li>
+				<li><a href="sistema/funcionalidade.html" target="conteudo">Funcionalidade</a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<script>
+/* function initMenu() {
+	$( "#menu" ).menu();
+    $( "#menu" ).removeClass("oculto");
+} */
+</script>
+<script src="js/all.js" onload="initMenu()">
+</script>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Usuário</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../js/all.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/estilos.css">
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/usuario/usuario.js"></script>
+<script type="text/javascript" src="../css/live-search.css"></script>
+<script type="text/javascript" src="../js/live-search.js"></script>
+</head>
+<body onload="init(usuario.init())">
+
+<div id="accordion">
+	<h3>Cadastrar</h3>
+	<p>
+		<form action="/api-atenticacao/acoes" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="classe" value="Usuario"><br/>
+			<input type="hidden" id="metodo" value="incluir">
+			<table>
+				<tr>
+					<td><label>Nome: </label></td>
+					<td><input type="text" name="nome" placeholder="nome" /></td>
+				</tr>
+				<tr>
+					<td><label>Login: </label></td>
+					<td><input type="text" name="login" placeholder="login" /></td>
+				</tr>
+				<tr id="campoSenha">
+					<td><label>Senha: </label></td>
+					<td><input type="password" name="senha" placeholder="senha" /></td>
+				</tr>
+				<tr id="campoNovaSenha">
+					<td><label>Nova senha: </label></td>
+					<td><input type="password" name="novaSenha" placeholder="nova senha" /></td>
+				</tr>
+				<tr id="campoConfirmarNovaSenha">
+					<td><label>Confirmar nova senha: </label></td>
+					<td><input type="password" name="confirmaNovaSenha" placeholder="confirme a nova senha" /></td>
+				</tr>
+				<tr>
+					<td><label>Data de Nascimento: </label></td>
+					<td><input type="date" name="dataDeNascimento" /></td>
+				</tr>
+				<tr>
+					<td><label>Endereço: </label></td>
+					<td><input type="search" name="endereco" /></td>
+				</tr>
+				<tr>
+					<td><label>Fotos: </label></td>
+					<td><input type="file" name="file" size="50" multiple="multiple" title="Selecione um arquivo para fazer upload" /></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<input type="submit" value="salvar" title="salvar" />
+						<input type="reset" value="limpar" title="limpar"/>
+					</td>
+				</tr>
+			</table>
+			<br />
+		</form>
+	</p>
+</div>
+
+
+<div id="divTabela">
+	<h1>Lista de Usuários</h1>
+	<div id="formPesquisa">
+		<label>Nome: </label>
+		 <input type="text" id="nomePesquisa" placeholder="nome"> 
+		 <input type="button" id="btnPesquisar" value="Pesquisar">
+	</div>
+	<table id="tbl" class="dados">
+		<thead>
+			<tr>
+				<td>Id</td>
+				<td>Nome</td>
+				<td>Login</td>
+				<td>E-mail</td>
+				<td>Data de Nascimento</td>
+				<td>Perfil</td>
+			</tr>
+		</thead>		
+	</table>
+</div>
+
+
+</body>
+</html>
