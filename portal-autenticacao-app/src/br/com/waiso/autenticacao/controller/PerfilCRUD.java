@@ -1,61 +1,28 @@
 package br.com.waiso.autenticacao.controller;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import br.com.massuda.alexander.autenticacao.dao.IPerfilDAO;
-import br.com.massuda.alexander.autenticacao.dao.finder.impl.FinderPerfilImpl;
-import br.com.massuda.alexander.autenticacao.dao.impl.PerfilDAOImpl;
-import br.com.massuda.alexander.autenticacao.orm.modelo.NivelHierarquico;
 import br.com.massuda.alexander.autenticacao.orm.modelo.Perfil;
-import br.com.waiso.framework.abstratas.Classe;
-import br.com.waiso.framework.json.JSONReturn;
+import br.com.massuda.alexander.persistencia.interfaces.IDAO;
+import br.com.massuda.alexander.persistencia.interfaces.IFinder;
 
-public class PerfilCRUD extends Controlador<JSONReturn> {
+@Controller
+@RequestMapping("/perfil")
+public class PerfilCRUD extends Controlador<Perfil> {
 	
-	public JSONReturn incluir (ServletRequest requisicao, ServletResponse resposta) {
-		Perfil perfil = new Perfil();
-		
-		String nome = getStringDaRequisicao(requisicao, "nome");
-		perfil.setNome(nome);
-		NivelHierarquico nivelHierarquico = NivelHierarquico.USUARIO;
-		String nivel = getStringDaRequisicao(requisicao, "nivel");
-		if (Classe.existe(nivel)) {
-			nivelHierarquico = NivelHierarquico.valueOf(nivel);
-		}
-		perfil.setNivel(nivelHierarquico);
-		
-		IPerfilDAO dao = new PerfilDAOImpl();
-		perfil = dao.incluir(perfil);
-		
-		return SUCESSO(perfil);
+
+
+	@Autowired
+	public void setDao(IDAO<Perfil> dao) {
+		this.dao = dao;
+	}
+
+	@Autowired
+	public void setFinder(IFinder<Long, Perfil> finder) {
+		this.finder = finder;
 	}
 	
-	public JSONReturn listar (ServletRequest requisicao, ServletResponse resposta) {
-		List<Perfil> perfis = new FinderPerfilImpl().listar();
-		return SUCESSO(perfis);
-	}
-	
-	public JSONReturn pesquisar (ServletRequest requisicao, ServletResponse resposta) {
-		Long id = null;
-		String strID = getStringDaRequisicao(requisicao, "id");
-		
-		try {
-			id = Long.parseLong(strID);
-		} catch (NumberFormatException nfe) {
-			return ERRO(nfe);
-		}
-		
-		Perfil perfil = new FinderPerfilImpl().pesquisar(id);
-		return SUCESSO(perfil);
-	}
-	
-	public JSONReturn pesquisarPorNomeComo (ServletRequest requisicao, ServletResponse resposta) {
-		String nome = getStringDaRequisicao(requisicao, "nome");
-		List<Perfil> perfis = new FinderPerfilImpl().pesquisarPorNomeComo(nome);
-		return SUCESSO(perfis);
-	}
 	
 }

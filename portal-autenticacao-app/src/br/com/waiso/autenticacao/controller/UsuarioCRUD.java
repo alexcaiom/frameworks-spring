@@ -1,50 +1,35 @@
 package br.com.waiso.autenticacao.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.massuda.alexander.autenticacao.excecoes.ErroNegocio;
 import br.com.massuda.alexander.autenticacao.orm.bo.BOUsuario;
-import br.com.massuda.alexander.autenticacao.orm.bo.BOUsuarioImpl;
-import br.com.massuda.alexander.autenticacao.orm.modelo.Foto;
-import br.com.massuda.alexander.autenticacao.orm.modelo.Perfil;
 import br.com.massuda.alexander.autenticacao.orm.modelo.usuario.Usuario;
-import br.com.waiso.autenticacao.dto.UsuarioDTO;
-import br.com.waiso.autenticacao.dto.mapeadores.UsuarioMapeador;
+import br.com.massuda.alexander.persistencia.interfaces.IDAO;
+import br.com.massuda.alexander.persistencia.interfaces.IFinder;
+import br.com.massuda.alexander.spring.framework.infra.excecoes.ErroNegocio;
 import br.com.waiso.autenticacao.utils.Constantes;
 import br.com.waiso.autenticacao.utils.SessaoUsuario;
 import br.com.waiso.autenticacao.utils.SessoesUsuario;
 import br.com.waiso.framework.abstratas.Classe;
-import br.com.waiso.framework.exceptions.ErroUsuario;
-import br.com.waiso.framework.json.JSONReturn;
 
 @Controller
 @RequestMapping("/usuario")
-public class UsuarioCRUD extends Controlador {
+public class UsuarioCRUD extends Controlador<Usuario> {
 	
 	@Autowired
-	private BOUsuario bo;
+	private 
 
+	@Override
 	@RequestMapping(method=RequestMethod.POST)
 	public void incluir(Usuario usuario) {
-		if (existe(usuario.getFotos()) && !usuario.getFotos().isEmpty()) {
+		/*if (existe(usuario.getFotos()) && !usuario.getFotos().isEmpty()) {
 			try {
 				String raiz = System.getProperty("catalina.home");
 				File pastaArquivosTemporarios = new File(raiz + "/temp/");
@@ -89,75 +74,67 @@ public class UsuarioCRUD extends Controlador {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		bo.incluir(usuario);
 	}
 	
-	public JSONReturn autenticar(ServletRequest requisicao, ServletResponse resposta) {
-		String login = getStringDaRequisicao(requisicao, "login");
-		String senha = getStringDaRequisicao(requisicao, "senha");
+	@RequestMapping(value="/autenticar", method=RequestMethod.POST)
+	public ResponseEntity<? extends Object> autenticar(String login, String senha) {
 		Usuario usuario = null;
 		try {
 			usuario = bo.autentica(login, senha);
-			
-			adicionarSessaoDeUsuario(requisicao, usuario);
+			adicionarSessaoDeUsuario(usuario);
 		} catch (ErroNegocio e) {
-			return ATENCAO(e.getErro());
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return SUCESSO(usuario, "dataDeNascimento", "dataDeCriacao");
+		return new ResponseEntity<Object>(usuario, HttpStatus.OK);
 	}
-	
-	public JSONReturn usuarioEstaLogado(ServletRequest requisicao, ServletResponse resposta) {
-		String login = getStringDaRequisicao(requisicao, "login");
+
+	@RequestMapping(value="/usuarioEstaLogado", method=RequestMethod.POST)
+	public ResponseEntity<? extends Object> usuarioEstaLogado(String login) {
 		try {
-			SessoesUsuario sessoes = getSessoesUsuario(requisicao);
+			SessoesUsuario sessoes = getSessoesUsuario();
 			boolean usuarioLogado = sessoes.tem(login);
 			if (usuarioLogado) {
-				boolean valida = sessoes.valida(login);
-				return SUCESSO(valida);
+				Boolean valida = sessoes.valida(login);
+				return new ResponseEntity<Boolean>(valida, HttpStatus.OK);
 			}
 		} catch (ErroNegocio e) {
-			return ATENCAO(e.getErro());
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return SUCESSO(false);
+		return new ResponseEntity<Object>(false, HttpStatus.OK);
 	}
 	
-	private SessoesUsuario adicionarSessaoDeUsuario(ServletRequest requisicao, Usuario usuario) {
-		SessoesUsuario sessoes = getSessoesUsuario(requisicao);
+	private SessoesUsuario adicionarSessaoDeUsuario(Usuario usuario) {
+		SessoesUsuario sessoes = getSessoesUsuario();
 		
 		SessaoUsuario sessaoDeUsuario = new SessaoUsuario(usuario.getLogin(), usuario, GregorianCalendar.getInstance());
 		sessoes.add(usuario.getLogin(), sessaoDeUsuario);
 		return sessoes;
 	}
 
-	private SessoesUsuario getSessoesUsuario(ServletRequest requisicao) {
-		HttpSession sessao = ((HttpServletRequest)requisicao).getSession();
-		SessoesUsuario sessoes = (SessoesUsuario) sessao.getAttribute(Constantes.USUARIO);
+	private SessoesUsuario getSessoesUsuario() {
+		SessoesUsuario sessoes = (SessoesUsuario) httpSession.getAttribute(Constantes.USUARIO);
 		
 		if (Classe.naoExiste(sessoes)) {
 			sessoes = new SessoesUsuario();
-			sessao.setAttribute(Constantes.USUARIO, sessoes);
+			httpSession.setAttribute(Constantes.USUARIO, sessoes);
 		}
 		return sessoes;
 	}
+	
 
-	public JSONReturn listar(ServletRequest requisicao, ServletResponse resposta) {
-		List<Usuario> usuarios = null;
-		try {
-			 usuarios = bo.listarUsuarios();
-		} catch(Exception e) {
-			throw new ErroUsuario(e.getCause().getMessage());
-		}
-		List<UsuarioDTO> usuariosDTO = UsuarioMapeador.from(usuarios);
-		return SUCESSO(usuariosDTO, "dataDeNascimento", "dataDeCriacao"); 
+
+	@Autowired
+	public void setDao(IDAO<Usuario> dao) {
+		this.dao = dao;
+	}
+
+	@Autowired
+	public void setFinder(IFinder<Long, Usuario> finder) {
+		this.finder = finder;
 	}
 	
-	public JSONReturn pesquisarPorNome(ServletRequest requisicao, ServletResponse resposta) {
-		String nome = getStringDaRequisicao(requisicao, "nome");
-		List<Usuario> usuarios = bo.pesquisarPorNome(nome);
-		List<UsuarioDTO> usuariosDTO = UsuarioMapeador.from(usuarios);
-		return SUCESSO(usuariosDTO, "dataDeNascimento", "dataDeCriacao"); 
-	}
-	
+
 }
