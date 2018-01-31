@@ -1,4 +1,4 @@
-package br.com.massuda.alexander.autenticacao.utils;
+package br.com.massuda.alexander.spring.framework.infra.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 public class UtilsData {
 
 	private static String formatoBR = "d' de 'MMMM' de 'yyyy";
+	private static String formatoBR_DataHora = "d' de 'MMMM' de 'yyyy HH:mm:ss";
 
 	/**
 	 * Metodo que detecta com base na Data atual do servidor o dia da semana
@@ -39,6 +40,21 @@ public class UtilsData {
 	public static String getDataPorExtenso(Calendar data) {
 		SimpleDateFormat format = new SimpleDateFormat(formatoBR);
 		return format.format(data.getTime());
+	}
+	
+	public static String getDataHoraPorExtenso(Calendar data) {
+		SimpleDateFormat format = new SimpleDateFormat(formatoBR_DataHora);
+		return format.format(data.getTime());
+	}
+	
+	public static String getDataHojePorExtenso() {
+		SimpleDateFormat format = new SimpleDateFormat(formatoBR);
+		return format.format(GregorianCalendar.getInstance().getTime());
+	}
+	
+	public static String getDataHoraAgoraPorExtenso() {
+		SimpleDateFormat format = new SimpleDateFormat(formatoBR_DataHora);
+		return format.format(GregorianCalendar.getInstance().getTime());
 	}
 	
 	public static Calendar strToCalendar(String strData) throws Exception {

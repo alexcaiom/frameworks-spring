@@ -1,9 +1,7 @@
-package br.com.massuda.alexander.autenticacao.utils;
+package br.com.massuda.alexander.spring.framework.infra.utils;
 
 import org.springframework.http.MediaType;
 
-import br.com.massuda.alexander.persistencia.jdbc.utils.ConstantesPersistencia;
-import br.com.waiso.framework.json.JSONReturn;
 
 /**
  * @author Alex
@@ -30,7 +28,7 @@ public class Constantes {
 	}
 
 	public static final String getMensagemFalha(Class qualVO, String operacao){
-		return MENSAGEM_SUCESSO.replace("{operacao}", operacao).replace("{item}", qualVO.getSimpleName());
+		return MENSAGEM_FALHA.replace("{operacao}", operacao).replace("{item}", qualVO.getSimpleName());
 	}
 	
 	

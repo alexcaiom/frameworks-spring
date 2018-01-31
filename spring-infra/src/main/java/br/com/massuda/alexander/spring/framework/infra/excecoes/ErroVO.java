@@ -1,4 +1,4 @@
-package br.com.massuda.alexander.autenticacao.excecoes;
+package br.com.massuda.alexander.spring.framework.infra.excecoes;
 
 import java.io.Serializable;
 

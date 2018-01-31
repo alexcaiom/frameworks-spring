@@ -1,10 +1,14 @@
-package br.com.massuda.alexander.autenticacao.excecoes;
+package br.com.massuda.alexander.spring.framework.infra.excecoes;
 /**
  * @author Alex
  * Classe Mãe de Erros/Exceções
  */
 public class Erro extends Error {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1727546945514929736L;
 	public String erro;
 	public String mensagem;
 	
@@ -14,6 +18,7 @@ public class Erro extends Error {
 	public Erro(String descricaoErro) {
 		super(descricaoErro);
 		this.erro = descricaoErro;
+		this.mensagem = descricaoErro;
 	} 
 	
 	public Erro(Throwable e, String descricaoErro) {
