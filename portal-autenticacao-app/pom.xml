@@ -11,11 +11,6 @@
   </properties>
   <dependencies>
   	<dependency>
-  	  <groupId>br.com.massuda.alexander</groupId>
-	  <artifactId>portal-autenticacao-bo</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
     	<groupId>javax.ws.rs</groupId>
 	    <artifactId>javax.ws.rs-api</artifactId>
 	    <version>2.0-m10</version>
@@ -46,6 +41,11 @@
 		<groupId>commons-io</groupId>
 		<artifactId>commons-io</artifactId>
 		<version>2.4</version>
+	</dependency>
+	<dependency>
+		<groupId>br.com.waiso</groupId>
+		<artifactId>portal-autenticacao-service</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
   </dependencies>
   <build>
