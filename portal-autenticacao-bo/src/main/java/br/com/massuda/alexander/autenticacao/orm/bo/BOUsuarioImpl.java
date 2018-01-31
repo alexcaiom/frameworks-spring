@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 
 import br.com.massuda.alexander.autenticacao.dao.IUsuarioDAO;
 import br.com.massuda.alexander.autenticacao.dao.finder.usuario.IFinderUsuario;
-import br.com.massuda.alexander.autenticacao.excecoes.Erro;
-import br.com.massuda.alexander.autenticacao.excecoes.ErroNegocio;
-import br.com.massuda.alexander.autenticacao.excecoes.SysErr;
 import br.com.massuda.alexander.autenticacao.orm.modelo.NivelHierarquico;
 import br.com.massuda.alexander.autenticacao.orm.modelo.RespostaUsuarioAutenticacao;
 import br.com.massuda.alexander.autenticacao.orm.modelo.RespostaUsuarioCadastro;
 import br.com.massuda.alexander.autenticacao.orm.modelo.usuario.Usuario;
-import br.com.massuda.alexander.autenticacao.utils.UtilsData;
+import br.com.massuda.alexander.spring.framework.infra.excecoes.Erro;
+import br.com.massuda.alexander.spring.framework.infra.excecoes.ErroNegocio;
+import br.com.massuda.alexander.spring.framework.infra.excecoes.SysErr;
+import br.com.massuda.alexander.spring.framework.infra.utils.UtilsData;
 
 /**
  * @author Alex
@@ -27,69 +27,18 @@ import br.com.massuda.alexander.autenticacao.utils.UtilsData;
 public class BOUsuarioImpl extends BO
 						implements BOUsuario, Serializable {
 
-	@Autowired
-	private IUsuarioDAO dao;
-	
-	@Autowired
-	private IFinderUsuario finder;
-	
-	
 	/**
-	 * Metodo de Autenticacao de Usuario
-	 * @param login
-	 * @param senha
-	 * @return
+	 * 
 	 */
-	public Usuario autentica(String login, String senha) throws Erro {
-		log("Autenticando "+getNomeEntidade());
-		Usuario u = new Usuario();
-		u.setLogin(login);
-		Usuario usuarioRecuperadoDoBD = new  Usuario();
-		usuarioRecuperadoDoBD = finder.pesquisarPorLogin(u.getLogin());
-		
-		//Primeiro verificamos se o usuario existe.
-		if(existe(usuarioRecuperadoDoBD)){
-			//Verificamos se usuario e senha informado batem com o banco.
-			boolean usuarioConfere = (login.equals(usuarioRecuperadoDoBD.getLogin()) && senha.equals(usuarioRecuperadoDoBD.getSenha()));
-			boolean usuarioEstaBloqueado = !(usuarioRecuperadoDoBD.getStatus() == null || !usuarioRecuperadoDoBD.getStatus().equals(RespostaUsuarioAutenticacao.USUARIO_BLOQUEADO));
-			boolean ehFinalDeSemana = UtilsData.ehFinalDeSemana();
-			boolean ehHorarioComercial = UtilsData.ehHorarioComercial();
-			boolean ehAdm = ehAdm(usuarioRecuperadoDoBD);
-			
-			boolean usuarioPodeAcessar = usuarioConfere 
-								&& 
-								((!usuarioEstaBloqueado 
-								/*&& !ehFinalDeSemana*/ 
-								/*&& ehHorarioComercial*/)
-								|| ehAdm); 
-			
-			if (usuarioPodeAcessar){
-				log(getNomeEntidade()+ " autenticado com sucesso");
-			} else if (!usuarioConfere) {
-				log(getNomeEntidade()+ " informado com senha inválida...");
-				usuarioRecuperadoDoBD.setContadorSenhaInvalida(usuarioRecuperadoDoBD.getContadorSenhaInvalida()+1);
-				boolean avisaUsuarioBloqueioNoProximoErro = (3 - usuarioRecuperadoDoBD.getContadorSenhaInvalida()) == 1;
-				trataSenhaInvalidaDoUsuario(usuarioRecuperadoDoBD);
-				
-				if (avisaUsuarioBloqueioNoProximoErro) {
-					throw new ErroNegocio(RespostaUsuarioAutenticacao.SENHA_INVALIDA_ULTIMA_TENTATIVA.getMensagem());
-				} else {
-					throw new ErroNegocio(RespostaUsuarioAutenticacao.SENHA_INVALIDA.getMensagem());
-				}
-			} else if(usuarioEstaBloqueado) {
-				throw new ErroNegocio(RespostaUsuarioAutenticacao.USUARIO_BLOQUEADO.getMensagem() );
-			} else if (ehFinalDeSemana) {
-				throw new ErroNegocio(RespostaUsuarioAutenticacao.FINAL_DE_SEMANA.getMensagem() );
-			} else if (!ehHorarioComercial) {
-				throw new ErroNegocio(RespostaUsuarioAutenticacao.FORA_DO_HORARIO_COMERCIAL.getMensagem() );
-			}
-		} else {
-			log(RespostaUsuarioAutenticacao.USUARIO_INEXISTENTE.getMensagem());
-			throw new ErroNegocio(RespostaUsuarioAutenticacao.USUARIO_INEXISTENTE.getMensagem());
-		}
-		return usuarioRecuperadoDoBD;
-	}
+	private static final long serialVersionUID = -4058157133186995621L;
 
+	@Autowired
+	private IUsuarioDAO dao/* = new UsuarioDAOImpl();*/;
+	
+	@Autowired
+	private IFinderUsuario finder/* = new FinderUsuarioImpl()*/;
+	
+	
 	public List<Usuario> listarUsuarios(){
 		log("Listando "+getNomeEntidade()+"s");
 		List<Usuario> usuarios = null;
