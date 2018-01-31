@@ -25,12 +25,7 @@
     </dependency>
     <dependency>
       <groupId>br.com.massuda.alexander</groupId>
-	  <artifactId>api-autenticacao-modelo</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>br.com.massuda.alexander</groupId>
-	  <artifactId>portal-autenticacao-dao</artifactId>
+	  <artifactId>api-usuario-dao</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
