@@ -5,4 +5,6 @@ import br.com.massuda.alexander.persistencia.interfaces.IFinder;
 
 public interface IFinderPermissao extends IFinder<Long, Permissao> {
 	
+	Permissao pesquisarPorUsuario (Long idUsuario);
+	
 }

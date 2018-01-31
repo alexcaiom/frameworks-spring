@@ -48,8 +48,10 @@ public class FinderUsuarioImpl extends Finder<Usuario> implements IFinderUsuario
 					preencher(u);
 					usuarios.add(u);
 				}
+				fecharOperacaoPrincipal();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
 			}
 		return usuarios;
 	}
